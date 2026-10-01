@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Кексомагия</title>
+  <meta name="description" content="Испеки мультяшный кекс. Испортить невозможно. / Bake a cartoon loaf cake. Ruining it is impossible.">
+  <meta name="theme-color" content="#ffc2dc">
+  <meta property="og:title" content="Кексомагия · Cake Magic">
+  <meta property="og:description" content="Испеки мультяшный кекс. Испортить невозможно.">
+  <meta property="og:url" content="https://cake.vibecode.cat/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Rubik+Bubbles&display=swap&subset=cyrillic" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body data-step="start">
+  <div class="bg" aria-hidden="true">
+    <span>✦</span><span>●</span><span>★</span><span>✦</span><span>●</span><span>♥</span><span>★</span><span>✦</span><span>●</span><span>♥</span>
+  </div>
+
+  <header class="top">
+    <button class="logo" id="home" aria-label="Home">✨<b>Кексомагия</b></button>
+    <ol class="steps" id="steps" hidden></ol>
+    <div class="tools">
+      <button class="pill" id="lang">EN</button>
+      <button class="pill" id="snd" aria-label="Sound">🔊</button>
+    </div>
+  </header>
+
+  <main class="app">
+    <section class="stage">
+      <div class="scene" id="scene"></div>
+      <div class="chef-wrap">
+        <button class="chef" id="chef" aria-label="Chef Murzik"></button>
+        <p class="bubble" id="bubble" aria-live="polite"></p>
+      </div>
+    </section>
+    <section class="panel" id="panel"></section>
+  </main>
+
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <script type="module" src="js/main.js?v=1"></script>
+</body>
+</html>

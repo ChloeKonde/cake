@@ -1,0 +1,10 @@
+services:
+  cake:
+    build: .
+    image: cake-vibecode:latest
+    container_name: cake
+    restart: unless-stopped
+    # The host nginx proxies cake.vibecode.cat -> 127.0.0.1:1338.
+    # Set CAKE_BIND=0.0.0.0 if the proxy runs somewhere that can't reach the host loopback.
+    ports:
+      - "${CAKE_BIND:-127.0.0.1}:1338:80"
