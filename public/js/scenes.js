@@ -165,12 +165,14 @@ export function ovenSVG() {
 
 // ---------- Chef Murzik ----------
 
-export const CHEF_SVG = `<svg viewBox="0 0 120 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path d="M 22 64 L 26 22 L 52 44 Z" fill="#ffb35c" stroke="${INK}" stroke-width="3.5" stroke-linejoin="round"/>
-  <path d="M 98 64 L 94 22 L 68 44 Z" fill="#ffb35c" stroke="${INK}" stroke-width="3.5" stroke-linejoin="round"/>
+// Cats: Chef Murzik wears the hat; factory customers come in other fur colours.
+export function catSVG(fur = '#ffb35c', stripe = '#e08a2e', hat = false) {
+  return `<svg viewBox="0 ${hat ? 0 : 16} 120 ${hat ? 130 : 114}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M 22 64 L 26 22 L 52 44 Z" fill="${fur}" stroke="${INK}" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M 98 64 L 94 22 L 68 44 Z" fill="${fur}" stroke="${INK}" stroke-width="3.5" stroke-linejoin="round"/>
   <path d="M 28 52 L 30 32 L 44 44 Z M 92 52 L 90 32 L 76 44 Z" fill="#ff9eb5"/>
-  <ellipse cx="60" cy="82" rx="46" ry="38" fill="#ffb35c" stroke="${INK}" stroke-width="3.5"/>
-  <path d="M 52 50 l 2 10 M 60 48 v 11 M 68 50 l -2 10" stroke="#e08a2e" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="60" cy="82" rx="46" ry="38" fill="${fur}" stroke="${INK}" stroke-width="3.5"/>
+  <path d="M 52 50 l 2 10 M 60 48 v 11 M 68 50 l -2 10" stroke="${stripe}" stroke-width="4" stroke-linecap="round"/>
   <g class="blink">
     <ellipse cx="44" cy="80" rx="6" ry="7.5" fill="#2b1a10"/><ellipse cx="76" cy="80" rx="6" ry="7.5" fill="#2b1a10"/>
     <circle cx="42" cy="77" r="2.3" fill="#fff"/><circle cx="74" cy="77" r="2.3" fill="#fff"/>
@@ -179,11 +181,14 @@ export const CHEF_SVG = `<svg viewBox="0 0 120 130" xmlns="http://www.w3.org/200
   <path d="M 56 90 L 64 90 L 60 95 Z" fill="#ff6f91" stroke="${INK}" stroke-width="1.5" stroke-linejoin="round"/>
   <path d="M 51 99 Q 55.5 104 60 99 Q 64.5 104 69 99" stroke="${INK}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
   <path d="M 14 88 L 34 91 M 14 98 L 34 96 M 106 88 L 86 91 M 106 98 L 86 96" stroke="${INK}" stroke-width="2" stroke-linecap="round"/>
-  <g>
+  ${hat ? `<g>
     <rect x="38" y="34" width="44" height="14" rx="4" fill="#fff" stroke="${INK}" stroke-width="3"/>
     <circle cx="44" cy="22" r="13" fill="#fff" stroke="${INK}" stroke-width="3"/>
     <circle cx="76" cy="22" r="13" fill="#fff" stroke="${INK}" stroke-width="3"/>
     <circle cx="60" cy="14" r="15" fill="#fff" stroke="${INK}" stroke-width="3"/>
     <path d="M 36 30 Q 60 40 84 30 L 82 36 L 38 36 Z" fill="#fff"/>
-  </g>
+  </g>` : ''}
 </svg>`;
+}
+
+export const CHEF_SVG = catSVG('#ffb35c', '#e08a2e', true);

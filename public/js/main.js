@@ -6,6 +6,7 @@ import {
 import { cakeSVG, sliceSVG, toppingIcon, eyesIcon, mouthIcon, sprinkleIcon, fillingIcon } from './cake.js';
 import { bowlSVG, Bowl, ovenSVG, CHEF_SVG } from './scenes.js';
 import { sfx, confetti, sparkleAt, isMuted, setMuted } from './fx.js';
+import { renderFactory, newFactory, bestLevel } from './factory.js';
 import { rng, pick, clamp, $, $$ } from './util.js';
 
 const STEPS = ['filling', 'mix', 'bake', 'decorate', 'reveal'];
@@ -155,7 +156,14 @@ function renderStart() {
   scene.innerHTML = `<div class="hero float">${cakeSVG(S.demo)}</div>`;
   panel.innerHTML =
     `<h1 class="logo-big">${t('title')}</h1><p class="sub">${t('subtitle')}</p>` +
-    `<button class="btn big primary" id="start">${t('start')}</button>` + shelfHTML();
+    `<div class="modes">` +
+    `<button class="mode primary" id="mFactory"><span class="emo">🏭</span><span><b>${t('mode.factory')}</b><small>${t('mode.factory.tag')}</small></span></button>` +
+    (bestLevel() > 1 ? `<button class="btn small ghost" id="mCont">▶ ${t('f.continue')} ${bestLevel()}</button>` : '') +
+    `<button class="mode" id="start"><span class="emo">🎨</span><span><b>${t('mode.free')}</b><small>${t('mode.free.tag')}</small></span></button>` +
+    `</div>` + shelfHTML();
+  $('#mFactory').addEventListener('click', () => { sfx.pop(); newFactory(1); go('factory'); });
+  const cont = $('#mCont');
+  if (cont) cont.addEventListener('click', () => { sfx.pop(); newFactory(bestLevel()); go('factory'); });
   $('#start').addEventListener('click', () => {
     sfx.pop();
     S.cake = newCake();
@@ -610,7 +618,10 @@ async function savePNG() {
 
 // ---------- render ----------
 
-const RENDER = { start: renderStart, filling: renderFilling, mix: renderMix, bake: renderBake, decorate: renderDecorate, reveal: renderReveal };
+const RENDER = {
+  start: renderStart, filling: renderFilling, mix: renderMix, bake: renderBake, decorate: renderDecorate, reveal: renderReveal,
+  factory: (entering) => renderFactory({ scene, say, loop, go }, entering),
+};
 
 function render(entering = false) {
   stopLoop();

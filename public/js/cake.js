@@ -333,10 +333,10 @@ function crack(f, r, fid, bake) {
 
 /**
  * @param c cake config { filling, glaze, sprinkles, toppings[], eyes, mouth, extras[], seed }
- * @param o { bake 0..1, rise 0..1, pan, mood: 'sleep'|'wow'|null, cls }
+ * @param o { bake 0..1, rise 0..1, pan, empty (pan only, no batter), mood: 'sleep'|'wow'|null, cls }
  */
 export function cakeSVG(c, o = {}) {
-  const { bake = 1, rise = 1, pan = false, mood = null, cls = '' } = o;
+  const { bake = 1, rise = 1, pan = false, empty = false, mood = null, cls = '' } = o;
   const fid = c.filling || 'apple';
   const f = FILLINGS[fid];
   const idp = 'k' + ++uid;
@@ -376,7 +376,7 @@ export function cakeSVG(c, o = {}) {
     (ex.has('rainbow') ? rainbow() : '') +
     `<ellipse cx="222" cy="${pan ? 314 : 304}" rx="172" ry="13" fill="#000" opacity=".14"/>` +
     (ex.has('wings') && !pan ? WINGS : '') +
-    `<g transform="translate(0 300) scale(1 ${sy}) translate(0 -300)">${body}${cap}</g>` +
+    (empty ? '' : `<g transform="translate(0 300) scale(1 ${sy}) translate(0 -300)">${body}${cap}</g>`) +
     panMarkup +
     (ex.has('crown') ? CROWN : '') +
     (ex.has('halo') ? halo(ex.has('crown') ? -6 : 30) : '') +
