@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Rubik+Bubbles&display=swap&subset=cyrillic" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body data-step="start">
   <div class="bg" aria-hidden="true">
@@ -34,13 +34,13 @@
       <div class="scene" id="scene"></div>
       <div class="chef-wrap">
         <button class="chef" id="chef" aria-label="Chef Murzik"></button>
-        <p class="bubble" id="bubble" aria-live="polite"></p>
+        <div class="bubble" id="bubble" hidden><i class="bubble-bg"></i><span class="btext" aria-live="polite"></span></div>
       </div>
     </section>
     <section class="panel" id="panel"></section>
   </main>
 
   <canvas id="fx" aria-hidden="true"></canvas>
-  <script type="module" src="js/main.js?v=5"></script>
+  <script type="module" src="js/main.js?v=6"></script>
 </body>
 </html>

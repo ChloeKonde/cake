@@ -44,7 +44,8 @@ const panel = $('#panel');
 function say(key) {
   S.lastSay = key;
   const b = $('#bubble');
-  b.textContent = pick(Math.random, chefLines(key));
+  $('.btext', b).textContent = pick(Math.random, chefLines(key));
+  b.hidden = false;
   b.classList.remove('pop');
   void b.offsetWidth;
   b.classList.add('pop');

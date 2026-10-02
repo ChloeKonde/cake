@@ -222,28 +222,34 @@ h1, h2, h3, h4, p { margin: 0; }
   max-width: 340px;
   margin-bottom: 44px;
   padding: 10px 14px;
-  border: 3px solid var(--ink);
-  border-radius: 18px;
-  background: #fff;
   font-size: 15px;
   line-height: 1.35;
-  box-shadow: 0 4px 0 var(--ink);
   pointer-events: auto;
+  isolation: isolate;
 }
-.bubble:empty { display: none; }
-/* Tail: a square with two outlined edges, rotated so its corner points at the chef. */
-.bubble::before {
+.bubble[hidden] { display: none; }
+/* Bubble body + tail are one white silhouette; the stacked drop-shadows trace a single
+   continuous outline around both (borders would leave a seam where the tail joins). */
+.bubble-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 18px;
+  background: #fff;
+  filter:
+    drop-shadow(3px 0 0 var(--ink)) drop-shadow(-3px 0 0 var(--ink))
+    drop-shadow(0 3px 0 var(--ink)) drop-shadow(0 -3px 0 var(--ink))
+    drop-shadow(0 4px 0 var(--ink));
+}
+.bubble-bg::before {
   content: '';
   position: absolute;
-  left: -10px;
-  bottom: 14px;
-  width: 16px;
-  height: 16px;
-  border-left: 3px solid var(--ink);
-  border-bottom: 3px solid var(--ink);
-  border-bottom-left-radius: 4px;
+  left: -14px;
+  bottom: 12px;
+  width: 18px;
+  height: 22px;
   background: #fff;
-  transform: rotate(45deg);
+  clip-path: polygon(100% 0, 0 55%, 100% 100%);
 }
 .bubble.pop { animation: pop .35s cubic-bezier(.3, 1.6, .5, 1); }
 
