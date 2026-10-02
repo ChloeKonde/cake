@@ -11,7 +11,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - This machine is for development only. Don't run Docker, servers or the app here.
 - Production: `docker compose up -d --build`. This builds an `nginx:alpine` image that serves `public/` and binds `${CAKE_BIND:-127.0.0.1}:1338 -> 80`. The host's general nginx proxies the domain to it (`deploy/cake.vibecode.cat.conf`). The container exposes `/healthz`.
 - There's no build step, package manager, linter or test suite. It's plain ES modules loaded directly by the browser.
-- `index.html` loads `style.css?v=N` and `js/main.js?v=N`, and nginx caches assets for 1h. Bump `N` when you change assets. The modules that `main.js` imports have no version query, so browsers can serve stale copies for up to an hour after a deploy.
+- nginx serves JS and CSS with `Cache-Control: no-cache`, so browsers revalidate with an ETag on every load. Don't switch back to max-age: the ES modules import each other with no version query, and a cache would mix old and new modules after a deploy.
+- UI text and art use no emoji, no decorative Unicode symbols (✨ ★ ✓ ♥ ∞ → …) and no em dashes. Icons are SVGs from `icons.js`.
 
 ## Architecture (`public/js/`)
 

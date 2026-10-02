@@ -8,7 +8,7 @@
 
 import { t } from './i18n.js';
 import { FILLINGS, FILLING_IDS, GLAZES, GLAZE_SWATCH } from './data.js';
-import { extraIcon } from './icons.js';
+import { extraIcon, uiIcon } from './icons.js';
 import { cakeSVG, toppingIcon, fillingIcon } from './cake.js';
 import { catSVG } from './scenes.js';
 import { sfx, confetti, sparkleAt } from './fx.js';
@@ -296,7 +296,7 @@ function machineHTML(st, p) {
   const head = `<div class="mlabel">${t('f.st.' + st.id)}</div><div class="mface"><i></i><i></i></div>`;
   if (st.id === 'oven') {
     return `<div class="machine m-oven" style="left:${x - 60}px;--mc:${st.color}">${head}` +
-      `<div class="dial">∞°</div><div class="chimney"><i></i><i></i><i></i></div></div>`;
+      `<div class="dial">180°</div><div class="chimney"><i></i><i></i><i></i></div></div>`;
   }
   return `<div class="machine ${on ? '' : 'off'}" style="left:${x - 60}px;--mc:${st.color}">${head}` +
     `<div class="mbtns">` + st.opts.map((v) =>
@@ -322,7 +322,9 @@ function renderOrders() {
     `<div class="band" style="background:${TICKET[o.id % TICKET.length]}"></div>` +
     `<div class="cust">${catSVG(o.fur[0], o.fur[1])}</div>` +
     `<div class="osvg">${cakeSVG(o.cfg, { cls: 'thumb' })}</div>` +
-    `<div class="chips">${chips(o.cfg)}</div></div>`).join('');
+    `<div class="chips">${chips(o.cfg)}</div>` +
+    (o.status === 'open' ? '' : `<div class="mark">${uiIcon(o.status === 'ok' ? 'check' : 'heart')}</div>`) +
+    `</div>`).join('');
 }
 
 function renderHud() {
@@ -332,8 +334,8 @@ function renderHud() {
   hud.innerHTML =
     `<div class="lvl">${t('f.level')} ${F.level}</div>` +
     `<div class="pips">${Array.from({ length: p.count }, (_, i) => `<i class="${F.results[i] || ''}"></i>`).join('')}</div>` +
-    `<div class="hbtns"><button class="pill" id="ffwd" title="${t('f.ffwd')}" aria-label="${t('f.ffwd')}">⏩</button>` +
-    `<button class="pill" id="fquit" title="${t('f.menu')}" aria-label="${t('f.menu')}">🏠</button></div>`;
+    `<div class="hbtns"><button class="pill" id="ffwd" title="${t('f.ffwd')}" aria-label="${t('f.ffwd')}">${uiIcon('ffwd')}</button>` +
+    `<button class="pill" id="fquit" title="${t('f.menu')}" aria-label="${t('f.menu')}">${uiIcon('home')}</button></div>`;
   $('#ffwd').addEventListener('click', () => { if (F.phase === 'dwell') F.ff = true; sfx.click(); });
   $('#fquit').addEventListener('click', () => { sfx.click(); env.go('start'); });
 }
@@ -348,7 +350,7 @@ function renderOverlay() {
     const newSt = { 2: 'sprinkles', 3: 'toppings', 4: 'magic' }[F.level];
     const text = F.level === 1 ? t('f.intro') : newSt ? `${t('f.new')}: <b>${t('f.st.' + newSt)}</b>!` : t('f.faster');
     ov.innerHTML = `<div class="fcard bounce-in"><h3>${t('f.level')} ${F.level}</h3><p>${text}</p>` +
-      `<p class="small">🎂 × ${p.count}</p><button class="btn big primary" id="fgo">${t('f.start')}</button></div>`;
+      `<p class="small">${t('f.count')}: ${p.count}</p><button class="btn big primary" id="fgo">${t('f.start')}</button></div>`;
     $('#fgo').addEventListener('click', () => {
       sfx.pop();
       F.over = null;
@@ -360,9 +362,9 @@ function renderOverlay() {
     const ratio = F.matched / p.count;
     const stars = ratio === 1 ? 3 : ratio >= 0.6 ? 2 : 1;
     ov.innerHTML = `<div class="fcard bounce-in"><h3>${t('f.complete')}</h3>` +
-      `<div class="fstars">${[1, 2, 3].map((i) => `<i class="${i <= stars ? 'on' : ''}">★</i>`).join('')}</div>` +
+      `<div class="fstars">${[1, 2, 3].map((i) => `<i class="${i <= stars ? 'on' : ''}">${uiIcon(i <= stars ? 'star' : 'starOff')}</i>`).join('')}</div>` +
       `<p>${t('f.perfect')}: <b>${F.matched} / ${p.count}</b></p>` +
-      (F.matched < p.count ? `<p class="small">💖 ${t('f.loveNote')}</p>` : '') +
+      (F.matched < p.count ? `<p class="small">${t('f.loveNote')}</p>` : '') +
       `<div class="row"><button class="btn ghost" id="fmenu">${t('f.menu')}</button>` +
       `<button class="btn big primary" id="fnext">${t('f.next')}</button></div></div>`;
     $('#fnext').addEventListener('click', () => { sfx.pop(); newFactory(F.level + 1); renderFactory(env); });
@@ -423,7 +425,7 @@ export function renderFactory(e, entering = false) {
   F.cakes.forEach((c) => { c.dirty = true; });
 
   e.scene.innerHTML =
-    `<p class="rotate-hint">📱 ↻ ${t('f.rotate')}</p>` +
+    `<p class="rotate-hint">${t('f.rotate')}</p>` +
     `<div class="fac-fit" id="facfit"><div class="factory" id="factory">` +
     `<div class="orders" id="orders"></div><div class="hud" id="hud"></div>` +
     STATIONS.map((st) => machineHTML(st, p)).join('') +

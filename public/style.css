@@ -38,20 +38,25 @@ h1, h2, h3, h4, p { margin: 0; }
 .bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
 .bg span {
   position: absolute;
-  font-size: 22px;
+  width: 22px;
+  height: 22px;
   opacity: .5;
   animation: drift 14s linear infinite;
 }
 .bg span:nth-child(1) { left: 6%; color: #ff5d8f; animation-delay: -1s; }
-.bg span:nth-child(2) { left: 17%; color: #ffd23f; animation-delay: -8s; font-size: 14px; }
+.bg span:nth-child(2) { left: 17%; color: #ffd23f; animation-delay: -8s; }
 .bg span:nth-child(3) { left: 29%; color: #3bceac; animation-delay: -4s; }
-.bg span:nth-child(4) { left: 41%; color: #b07cff; animation-delay: -11s; font-size: 30px; }
-.bg span:nth-child(5) { left: 53%; color: #5d9cec; animation-delay: -2s; font-size: 12px; }
+.bg span:nth-child(4) { left: 41%; color: #b07cff; animation-delay: -11s; }
+.bg span:nth-child(5) { left: 53%; color: #5d9cec; animation-delay: -2s; }
 .bg span:nth-child(6) { left: 64%; color: #ff5d8f; animation-delay: -6s; }
 .bg span:nth-child(7) { left: 74%; color: #ff8c42; animation-delay: -13s; }
-.bg span:nth-child(8) { left: 83%; color: #3bceac; animation-delay: -9s; font-size: 16px; }
+.bg span:nth-child(8) { left: 83%; color: #3bceac; animation-delay: -9s; }
 .bg span:nth-child(9) { left: 91%; color: #ffd23f; animation-delay: -3s; }
 .bg span:nth-child(10) { left: 97%; color: #b07cff; animation-delay: -7s; }
+
+.bg span svg { display: block; width: 100%; height: 100%; fill: currentColor; }
+.bg span:nth-child(2), .bg span:nth-child(5) { width: 14px; height: 14px; }
+.bg span:nth-child(4) { width: 30px; height: 30px; }
 
 @keyframes drift {
   from { transform: translateY(105vh) rotate(0); }
@@ -78,6 +83,7 @@ h1, h2, h3, h4, p { margin: 0; }
   padding: 4px;
   font-size: 22px;
 }
+.logo img { display: block; }
 .logo b {
   font-family: 'Rubik Bubbles', Nunito, sans-serif;
   font-weight: 400;
@@ -222,34 +228,25 @@ h1, h2, h3, h4, p { margin: 0; }
   max-width: 340px;
   margin-bottom: 44px;
   padding: 10px 14px;
-  font-size: 15px;
-  line-height: 1.35;
-  pointer-events: auto;
-  isolation: isolate;
-}
-.bubble[hidden] { display: none; }
-/* Bubble body + tail are one white silhouette; the stacked drop-shadows trace a single
-   continuous outline around both (borders would leave a seam where the tail joins). */
-.bubble-bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
+  border: 3px solid var(--ink);
   border-radius: 18px;
   background: #fff;
-  filter:
-    drop-shadow(3px 0 0 var(--ink)) drop-shadow(-3px 0 0 var(--ink))
-    drop-shadow(0 3px 0 var(--ink)) drop-shadow(0 -3px 0 var(--ink))
-    drop-shadow(0 4px 0 var(--ink));
+  font-size: 15px;
+  line-height: 1.35;
+  box-shadow: 0 4px 0 var(--ink);
+  pointer-events: auto;
 }
-.bubble-bg::before {
-  content: '';
+.bubble[hidden] { display: none; }
+/* Tail is an SVG sitting over the bubble's 3px left border: its white fill hides the
+   border segment, and its two strokes end on the border's centre line, so bubble and
+   tail read as one continuous outline. */
+.bubble .tail {
   position: absolute;
-  left: -14px;
+  left: -17px;
   bottom: 12px;
-  width: 18px;
-  height: 22px;
-  background: #fff;
-  clip-path: polygon(100% 0, 0 55%, 100% 100%);
+  width: 17px;
+  height: 24px;
+  overflow: visible;
 }
 .bubble.pop { animation: pop .35s cubic-bezier(.3, 1.6, .5, 1); }
 
@@ -289,6 +286,14 @@ h1, h2, h3, h4, p { margin: 0; }
 .row { display: flex; gap: 10px; flex-wrap: wrap; }
 .row .btn { flex: 1; }
 .col { display: flex; flex-direction: column; gap: 10px; }
+
+/* Interface glyphs from icons.js */
+svg.ui { flex: none; width: 22px; height: 22px; }
+.btn.big svg.ui { width: 26px; height: 26px; }
+.pill svg.ui { display: block; margin: 0 auto; }
+
+/* Never clip wings, crowns or rainbows at the edge of the cake drawing. */
+svg.cake { overflow: visible; }
 
 /* ---------- start ---------- */
 
@@ -504,18 +509,12 @@ h1, h2, h3, h4, p { margin: 0; }
   line-height: 1.15 !important;
 }
 .score { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.stars i {
-  display: inline-block;
-  font-style: normal;
-  font-size: 34px;
-  color: var(--yellow);
-  -webkit-text-stroke: 2px var(--ink);
-  animation: star-pop .5s cubic-bezier(.3, 1.8, .5, 1) both;
-}
-.stars i:nth-child(2) { animation-delay: .12s; }
-.stars i:nth-child(3) { animation-delay: .24s; }
-.stars i:nth-child(4) { animation-delay: .36s; }
-.stars i:nth-child(5) { animation-delay: .48s; }
+.stars { display: inline-flex; gap: 2px; }
+.stars svg { width: 36px; height: 36px; animation: star-pop .5s cubic-bezier(.3, 1.8, .5, 1) both; }
+.stars svg:nth-child(2) { animation-delay: .12s; }
+.stars svg:nth-child(3) { animation-delay: .24s; }
+.stars svg:nth-child(4) { animation-delay: .36s; }
+.stars svg:nth-child(5) { animation-delay: .48s; }
 .num { font-size: 16px; }
 .num b { font-size: 22px; color: #ff5d8f; }
 
@@ -645,17 +644,10 @@ body[data-step="factory"] .bubble { margin-bottom: 30px; }
 .chip svg { width: 100%; height: 100%; }
 .chip .dot { width: 16px; height: 16px; border-width: 1.5px; }
 .order.ok, .order.love { animation: pop .35s cubic-bezier(.3, 1.6, .5, 1); }
-.order.ok::after, .order.love::after {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-size: 64px;
-  font-weight: 900;
-  -webkit-text-stroke: 3px var(--ink);
-}
-.order.ok::after { content: '✓'; color: #3bceac; background: rgba(123, 224, 173, .35); }
-.order.love::after { content: '♥'; color: #ff5d8f; background: rgba(255, 158, 196, .35); }
+.order .mark { position: absolute; inset: 0; display: grid; place-items: center; }
+.order .mark svg { width: 64px; height: 64px; animation: star-pop .4s cubic-bezier(.3, 1.8, .5, 1) both; }
+.order.ok .mark { background: rgba(123, 224, 173, .35); }
+.order.love .mark { background: rgba(255, 158, 196, .35); }
 
 .hud { position: absolute; right: 12px; top: 10px; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
 .hud .lvl {
@@ -837,11 +829,11 @@ body[data-step="factory"] .bubble { margin-bottom: 30px; }
   border: 3px solid var(--ink);
   border-radius: 6px;
   background: #ffb0d0;
-  transform-origin: 0 100%;
-  transform: rotate(-120deg);
-  transition: transform .25s cubic-bezier(.3, 1.6, .5, 1);
+  opacity: 0;
+  transform: translateY(-36px);
+  transition: transform .25s cubic-bezier(.3, 1.6, .5, 1), opacity .15s;
 }
-.fbox.close .lid { transform: none; }
+.fbox.close .lid { opacity: 1; transform: none; }
 .fbox.close { animation: pop .4s cubic-bezier(.3, 1.6, .5, 1); }
 
 .fover {
@@ -876,8 +868,10 @@ body[data-step="factory"] .bubble { margin-bottom: 30px; }
   -webkit-text-stroke: 1.5px var(--ink);
 }
 .fcard .small { font-size: 15px; opacity: .8; }
-.fstars i { font-style: normal; font-size: 54px; color: #fff; -webkit-text-stroke: 3px var(--ink); }
-.fstars i.on { color: var(--yellow); animation: star-pop .5s cubic-bezier(.3, 1.8, .5, 1) both; }
+.fstars { display: flex; gap: 6px; }
+.fstars i { display: block; width: 56px; height: 56px; }
+.fstars i svg { width: 100%; height: 100%; }
+.fstars i.on { animation: star-pop .5s cubic-bezier(.3, 1.8, .5, 1) both; }
 .fstars i:nth-child(2) { animation-delay: .15s; }
 .fstars i:nth-child(3) { animation-delay: .3s; }
 

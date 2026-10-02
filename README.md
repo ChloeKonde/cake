@@ -1,4 +1,4 @@
-# cake — Кексомагия / Cake Magic
+# cake: Кексомагия / Cake Magic
 
 A cartoon loaf-cake (кекс, ~20×10×13 cm) baking game. You can't make a bad cake: every choice turns out great.
 
@@ -8,11 +8,11 @@ Live at **https://cake.vibecode.cat**
 
 ### Кексовая фабрика / Cake Factory (inspired by Purble Place's Comfy Cakes)
 
-Cat customers post orders at the top. Pans move along a conveyor belt that stops under each machine: Batter → Oven → Glaze → Sprinkles → Toppings → Magic → Box. Press a machine's button while a cake is under it. A coloured flag on each cake shows which order it belongs to.
+Cat customers post orders at the top. Pans move along a conveyor belt that stops under each machine: Batter, Oven, Glaze, Sprinkles, Toppings, Magic, then the Box. Press a machine's button while a cake is under it. A coloured flag on each cake shows which order it belongs to.
 
 - Level 1 uses batter and glaze. Sprinkles unlock at level 2, toppings at 3 and magic at 4. After that the belt speeds up and more cakes ride it at once.
-- ⏩ or Space moves the belt on early. If every cake is already served, it moves on by itself.
-- There's no fail state. A cake that doesn't match its order goes to whichever customer it does match. If it matches nobody, the customer still loves it (♥), and you only miss the "perfect" ✓.
+- The fast-forward button or Space moves the belt on early. If every cake is already served, it moves on by itself.
+- There's no fail state. A cake that doesn't match its order goes to whichever customer it does match. If it matches nobody, the customer still loves it (a heart mark), and you only miss the "perfect" check mark.
 - The best level reached is saved, so you can continue from it.
 
 ### Свободная выпечка / Free baking

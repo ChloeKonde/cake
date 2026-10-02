@@ -7,12 +7,12 @@ import { cakeSVG, sliceSVG, toppingIcon, eyesIcon, mouthIcon, sprinkleIcon, fill
 import { bowlSVG, Bowl, ovenSVG, CHEF_SVG } from './scenes.js';
 import { sfx, confetti, sparkleAt, isMuted, setMuted } from './fx.js';
 import { renderFactory, newFactory, bestLevel } from './factory.js';
-import { extraIcon, ingredientIcon, modeIcon } from './icons.js';
+import { extraIcon, ingredientIcon, modeIcon, uiIcon } from './icons.js';
 import { rng, pick, clamp, $, $$ } from './util.js';
 
 const STEPS = ['filling', 'mix', 'bake', 'decorate', 'reveal'];
 const BAKE_MS = 7000;
-const TEMPS = [160, 180, 200, 230, '∞'];
+const TEMPS = [160, 180, 200, 230, 'max'];
 const SHELF_KEY = 'cake-shelf';
 
 const newCake = () => ({
@@ -78,8 +78,8 @@ function go(step) {
 
 const nav = (back, next, nextLabel = t('next'), nextOn = true) =>
   `<div class="nav">` +
-  (back ? `<button class="btn ghost" data-go="${back}">${t('back')}</button>` : '<span></span>') +
-  (next ? `<button class="btn primary" id="next" data-go="${next}" ${nextOn ? '' : 'disabled'}>${nextLabel}</button>` : '') +
+  (back ? `<button class="btn ghost" data-go="${back}">${uiIcon('back')}${t('back')}</button>` : '<span></span>') +
+  (next ? `<button class="btn primary" id="next" data-go="${next}" ${nextOn ? '' : 'disabled'}>${nextLabel}${nextLabel === t('next') ? uiIcon('next') : ''}</button>` : '') +
   `</div>`;
 
 function bindNav() {
@@ -93,7 +93,7 @@ function cakeName(c) {
 }
 
 function cakeScore(c) {
-  return pick(rng(c.seed + 3), ['11', '12', '15', '100', '∞']);
+  return pick(rng(c.seed + 3), ['11', '12', '15', '100', '1000']);
 }
 
 // ---------- shelf (localStorage) ----------
@@ -140,7 +140,7 @@ function renderHeader() {
     `<li class="${i < idx ? 'done' : i === idx ? 'now' : ''}"><span>${i + 1}</span><em>${label}</em></li>`).join('');
   $('#steps').hidden = idx < 0;
   $('#lang').textContent = getLang() === 'ru' ? 'EN' : 'RU';
-  $('#snd').textContent = isMuted() ? '🔇' : '🔊';
+  $('#snd').innerHTML = uiIcon(isMuted() ? 'mute' : 'sound');
   $('#snd').setAttribute('aria-label', t('sound'));
   document.title = t('title');
   $('#home b').textContent = t('title');
@@ -160,7 +160,7 @@ function renderStart() {
     `<h1 class="logo-big">${t('title')}</h1><p class="sub">${t('subtitle')}</p>` +
     `<div class="modes">` +
     `<button class="mode primary" id="mFactory"><span class="micon">${modeIcon('factory')}</span><span><b>${t('mode.factory')}</b><small>${t('mode.factory.tag')}</small></span></button>` +
-    (bestLevel() > 1 ? `<button class="btn small ghost" id="mCont">▶ ${t('f.continue')} ${bestLevel()}</button>` : '') +
+    (bestLevel() > 1 ? `<button class="btn small ghost" id="mCont">${uiIcon('play')}${t('f.continue')} ${bestLevel()}</button>` : '') +
     `<button class="mode" id="start"><span class="micon">${modeIcon('free')}</span><span><b>${t('mode.free')}</b><small>${t('mode.free.tag')}</small></span></button>` +
     `</div>` + shelfHTML();
   $('#mFactory').addEventListener('click', () => { sfx.pop(); newFactory(1); go('factory'); });
@@ -222,7 +222,7 @@ function renderMix(entering) {
     `<div class="ings">` + INGREDIENTS.map((ing) =>
       `<button class="ing" data-ing="${ing.id}">${ingIcon(ing)}<span>${t('ing.' + ing.id)}</span>` +
       `<i class="badge" ${m.counts[ing.id] ? '' : 'hidden'}>${m.counts[ing.id]}</i></button>`).join('') + `</div>` +
-    `<button class="btn big stir" id="stir">🥄 ${t('mix.stir')}</button>` +
+    `<button class="btn big stir" id="stir">${uiIcon('spoon')}${t('mix.stir')}</button>` +
     `<div class="meter"><label>${t('mix.progress')}</label><div class="bar"><i id="mixbar"></i></div></div>` +
     nav('filling', 'bake', t('next'), m.done);
 
@@ -342,7 +342,7 @@ function renderBake(entering) {
   const b = S.bake;
   if (b.done) {
     scene.innerHTML = `<div class="board bounce-in"><div class="steam"><span></span><span></span><span></span></div>${cakeSVG(S.cake)}</div>`;
-    panel.innerHTML = `<h2>${t('bake.title')}</h2><p class="hint big-hint">✨ ${pick(Math.random, chefLines('good'))}</p>` +
+    panel.innerHTML = `<h2>${t('bake.title')}</h2><p class="hint big-hint">${pick(Math.random, chefLines('good'))}</p>` +
       nav('mix', 'decorate', t('next'), true);
     $('#next').classList.add('wiggle');
     bindNav();
@@ -350,10 +350,10 @@ function renderBake(entering) {
   }
 
   scene.innerHTML = ovenSVG();
-  const tempLabel = () => (TEMPS[b.temp] === '∞' ? '∞°' : TEMPS[b.temp] + '°');
+  const tempLabel = () => (TEMPS[b.temp] === 'max' ? t('bake.magic').toUpperCase() : TEMPS[b.temp] + '°');
   panel.innerHTML =
     `<h2>${t('bake.title')}</h2><p class="hint">${t('bake.hint')}</p>` +
-    `<button class="btn knob" id="temp">🌡️ ${t('bake.temp')}: <b id="tempv">${TEMPS[b.temp] === '∞' ? t('bake.magic') : tempLabel()}</b></button>` +
+    `<button class="btn knob" id="temp">${uiIcon('thermo')}${t('bake.temp')}: <b id="tempv">${TEMPS[b.temp] === 'max' ? t('bake.magic') : tempLabel()}</b></button>` +
     `<div class="meter"><label>${t('bake.progress')}</label><div class="bar warm"><i id="bakebar"></i></div></div>` +
     `<button class="btn big primary" id="bakebtn">${b.running ? t('bake.take') : t('bake.start')}</button>` +
     nav('mix', null);
@@ -372,7 +372,7 @@ function renderBake(entering) {
 
   $('#temp').addEventListener('click', () => {
     b.temp = (b.temp + 1) % TEMPS.length;
-    $('#tempv').textContent = TEMPS[b.temp] === '∞' ? t('bake.magic') : tempLabel();
+    $('#tempv').textContent = TEMPS[b.temp] === 'max' ? t('bake.magic') : tempLabel();
     sfx.click();
     draw();
   });
@@ -435,7 +435,7 @@ function renderDecorate(entering) {
     `<div class="tabs" role="tablist">` + tabs.map((k) =>
       `<button role="tab" class="tab ${S.tab === k ? 'on' : ''}" data-tab="${k}" aria-selected="${S.tab === k}">${t('tab.' + k)}</button>`).join('') + `</div>` +
     `<div class="tabbody" id="tabbody">${tabBody()}</div>` +
-    `<div class="row"><button class="btn" id="surprise">${t('deco.surprise')}</button><button class="btn ghost" id="reset">${t('deco.reset')}</button></div>` +
+    `<div class="row"><button class="btn" id="surprise">${uiIcon('dice')}${t('deco.surprise')}</button><button class="btn ghost" id="reset">${t('deco.reset')}</button></div>` +
     nav('bake', 'reveal', t('deco.done'), true);
 
   $$('[data-tab]', panel).forEach((b) => b.addEventListener('click', () => { S.tab = b.dataset.tab; sfx.click(); renderDecorate(); }));
@@ -538,13 +538,13 @@ function renderReveal(entering) {
 
   const score = cakeScore(c);
   panel.innerHTML =
-    `<p class="kicker">✨ ${t('steps')[4]} ✨</p><h2 class="cake-name">${cakeName(c)}</h2>` +
-    `<div class="score"><span class="stars">${'<i>★</i>'.repeat(5)}</span>` +
+    `<p class="kicker">${t('steps')[4]}</p><h2 class="cake-name">${cakeName(c)}</h2>` +
+    `<div class="score"><span class="stars">${uiIcon('star').repeat(5)}</span>` +
     `<span class="num">${t('reveal.score')}: <b>${score}</b> ${t('reveal.outOf')}</span></div>` +
     `<div class="col">` +
-    (S.cut ? '' : `<button class="btn big primary" id="cut">${t('reveal.cut')}</button>`) +
-    `<button class="btn" id="save">📸 ${t('reveal.save')}</button>` +
-    `<button class="btn ghost" id="again">🔁 ${t('reveal.again')}</button></div>` +
+    (S.cut ? '' : `<button class="btn big primary" id="cut">${uiIcon('knife')}${t('reveal.cut')}</button>`) +
+    `<button class="btn" id="save">${uiIcon('camera')}${t('reveal.save')}</button>` +
+    `<button class="btn ghost" id="again">${uiIcon('again')}${t('reveal.again')}</button></div>` +
     (S.fromShelf ? '' : nav('decorate', null)) + shelfHTML();
 
   if (entering) {
@@ -573,6 +573,22 @@ function svgImage(markup) {
     img.onerror = rej;
     img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(markup);
   });
+}
+
+function drawStar(g, cx, cy, r) {
+  g.beginPath();
+  for (let i = 0; i < 10; i++) {
+    const rr = i % 2 ? r * 0.46 : r;
+    const a = -Math.PI / 2 + (i * Math.PI) / 5;
+    g.lineTo(cx + rr * Math.cos(a), cy + rr * Math.sin(a));
+  }
+  g.closePath();
+  g.fillStyle = '#ffd23f';
+  g.fill();
+  g.lineWidth = 4;
+  g.lineJoin = 'round';
+  g.strokeStyle = '#3d2314';
+  g.stroke();
 }
 
 async function savePNG() {
@@ -604,12 +620,10 @@ async function savePNG() {
   let size = 64;
   do { g.font = `900 ${size}px Nunito, system-ui, sans-serif`; size -= 2; } while (g.measureText(name).width > W - 100 && size > 28);
   g.fillText(name, W / 2, 120);
-  g.font = '800 40px Nunito, system-ui, sans-serif';
-  g.fillStyle = '#ffb703';
-  g.fillText('★★★★★', W / 2, 180);
+  for (let i = 0; i < 5; i++) drawStar(g, W / 2 + (i - 2) * 58, 166, 24);
   g.fillStyle = '#3d2314';
   g.font = '700 30px Nunito, system-ui, sans-serif';
-  g.fillText(`${t('reveal.score')}: ${cakeScore(c)} ${t('reveal.outOf')}  ·  cake.vibecode.cat`, W / 2, H - 50);
+  g.fillText(`${t('reveal.score')}: ${cakeScore(c)} ${t('reveal.outOf')}  |  cake.vibecode.cat`, W / 2, H - 50);
 
   const a = document.createElement('a');
   a.download = 'cake.png';

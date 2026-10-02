@@ -6,7 +6,7 @@
   <title>Кексомагия</title>
   <meta name="description" content="Испеки мультяшный кекс. Испортить невозможно. / Bake a cartoon loaf cake. Ruining it is impossible.">
   <meta name="theme-color" content="#ffc2dc">
-  <meta property="og:title" content="Кексомагия · Cake Magic">
+  <meta property="og:title" content="Кексомагия | Cake Magic">
   <meta property="og:description" content="Испеки мультяшный кекс. Испортить невозможно.">
   <meta property="og:url" content="https://cake.vibecode.cat/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -17,15 +17,15 @@
 </head>
 <body data-step="start">
   <div class="bg" aria-hidden="true">
-    <span>✦</span><span>●</span><span>★</span><span>✦</span><span>●</span><span>♥</span><span>★</span><span>✦</span><span>●</span><span>♥</span>
+    <span><svg viewBox="0 0 10 10"><path d="M5 .5 6.3 3.6 9.6 3.9 7.1 6.1 7.9 9.4 5 7.7 2.1 9.4 2.9 6.1.4 3.9 3.7 3.6Z"/></svg></span><span><svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4"/></svg></span><span><svg viewBox="0 0 10 10"><path d="M5 .5 6.3 3.6 9.6 3.9 7.1 6.1 7.9 9.4 5 7.7 2.1 9.4 2.9 6.1.4 3.9 3.7 3.6Z"/></svg></span><span><svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4"/></svg></span><span><svg viewBox="0 0 10 10"><path d="M5 9C1.5 6.5.5 4.8 1.2 3.1 1.9 1.5 4 1.4 5 3 6 1.4 8.1 1.5 8.8 3.1 9.5 4.8 8.5 6.5 5 9Z"/></svg></span><span><svg viewBox="0 0 10 10"><path d="M5 .5 6.3 3.6 9.6 3.9 7.1 6.1 7.9 9.4 5 7.7 2.1 9.4 2.9 6.1.4 3.9 3.7 3.6Z"/></svg></span><span><svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4"/></svg></span><span><svg viewBox="0 0 10 10"><path d="M5 9C1.5 6.5.5 4.8 1.2 3.1 1.9 1.5 4 1.4 5 3 6 1.4 8.1 1.5 8.8 3.1 9.5 4.8 8.5 6.5 5 9Z"/></svg></span><span><svg viewBox="0 0 10 10"><path d="M5 .5 6.3 3.6 9.6 3.9 7.1 6.1 7.9 9.4 5 7.7 2.1 9.4 2.9 6.1.4 3.9 3.7 3.6Z"/></svg></span><span><svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4"/></svg></span>
   </div>
 
   <header class="top">
-    <button class="logo" id="home" aria-label="Home">✨<b>Кексомагия</b></button>
+    <button class="logo" id="home" aria-label="Home"><img src="favicon.svg" alt="" width="34" height="34"><b>Кексомагия</b></button>
     <ol class="steps" id="steps" hidden></ol>
     <div class="tools">
       <button class="pill" id="lang">EN</button>
-      <button class="pill" id="snd" aria-label="Sound">🔊</button>
+      <button class="pill" id="snd" aria-label="Sound"></button>
     </div>
   </header>
 
@@ -34,7 +34,7 @@
       <div class="scene" id="scene"></div>
       <div class="chef-wrap">
         <button class="chef" id="chef" aria-label="Chef Murzik"></button>
-        <div class="bubble" id="bubble" hidden><i class="bubble-bg"></i><span class="btext" aria-live="polite"></span></div>
+        <div class="bubble" id="bubble" hidden><svg class="tail" viewBox="0 0 17 24" aria-hidden="true"><path d="M17 0 1.5 12 17 24Z" fill="#fff"/><path d="M15.5 1.5 1.5 12 15.5 22.5" fill="none" stroke="#3d2314" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg><span class="btext" aria-live="polite"></span></div>
       </div>
     </section>
     <section class="panel" id="panel"></section>

@@ -73,13 +73,16 @@ const INGREDIENTS = {
 const MODES = {
   // mini conveyor carrying a loaf
   factory:
-    `<rect x="4" y="34" width="40" height="7" rx="3.5" fill="#616b7c" ${sw()}/>` +
-    `<circle cx="11" cy="44" r="3" fill="#c9d4df" ${sw(2)}/><circle cx="24" cy="44" r="3" fill="#c9d4df" ${sw(2)}/><circle cx="37" cy="44" r="3" fill="#c9d4df" ${sw(2)}/>` +
-    `<path d="M 12 22 L 34 22 L 33 34 L 13 34 Z" fill="#eeb25a" ${sw()}/>` +
-    `<path d="M 10 23 C 9 14, 16 11, 23 11 C 31 11, 38 14, 36 23 C 30 26, 16 26, 10 23 Z" fill="#ffa3d1" ${sw()}/>` +
-    `<circle cx="23" cy="9" r="3.5" fill="#e5243b" ${sw(1.8)}/>` +
-    `<circle cx="19" cy="28" r="1.6" fill="${INK}"/><circle cx="27" cy="28" r="1.6" fill="${INK}"/>` +
-    `<path d="M 6 6 h 6 v 10 h -6 Z" fill="#b8c4d0" ${sw(2)}/><path d="M 9 16 v 5" stroke="#ffe080" stroke-width="3" stroke-linecap="round"/>`,
+    `<rect x="3" y="37" width="42" height="6" rx="3" fill="#616b7c" ${sw()}/>` +
+    `<circle cx="10" cy="45.5" r="2.2" fill="#c9d4df" ${sw(1.8)}/><circle cx="24" cy="45.5" r="2.2" fill="#c9d4df" ${sw(1.8)}/><circle cx="38" cy="45.5" r="2.2" fill="#c9d4df" ${sw(1.8)}/>` +
+    `<path d="M 30 25 L 36 21 L 35 32 L 29 36 Z" fill="#c98a3c" ${sw()}/>` +
+    `<path d="M 6 25 L 31 25 L 30 36 L 7 36 Z" fill="#eeb25a" ${sw()}/>` +
+    `<path d="M 5 26 C 4 19, 11 16, 19 16 C 27 16, 37 16, 37 22 C 36 27, 12 29, 5 26 Z" fill="#ffa3d1" ${sw()}/>` +
+    `<circle cx="14" cy="31" r="1.6" fill="${INK}"/><circle cx="22" cy="31" r="1.6" fill="${INK}"/>` +
+    // glaze nozzle: grey with ink outline, dripping an outlined pink drop so it reads on any background
+    `<rect x="16" y="2" width="12" height="6" rx="2" fill="#b8c4d0" ${sw(2)}/>` +
+    `<path d="M 19.5 8 h 5 v 2.5 h -5 Z" fill="#9fb0c0" ${sw(1.8)}/>` +
+    `<path d="M 22 11.5 C 24.5 14, 24.5 15.5, 22 15.5 C 19.5 15.5, 19.5 14, 22 11.5 Z" fill="#ffa3d1" ${sw(1.6)}/>`,
   // mixing bowl with a whisk
   free:
     `<path d="M 30 4 L 22 26" stroke="#c98a4b" stroke-width="5" stroke-linecap="round"/>` +
@@ -89,6 +92,51 @@ const MODES = {
     `<path d="M 9 33 Q 24 38 39 33" stroke="#fff" stroke-width="2.5" fill="none" opacity=".7"/>` +
     `<circle cx="19" cy="37" r="1.6" fill="${INK}"/><circle cx="29" cy="37" r="1.6" fill="${INK}"/>`,
 };
+
+// Small interface glyphs (24x24) for buttons: replaces emoji and Unicode symbols.
+const UI = {
+  sound:
+    `<path d="M 3 9 h 4 l 5 -4.5 v 15 l -5 -4.5 h -4 Z" fill="${INK}" ${sw(2)}/>` +
+    `<path d="M 15.5 8.5 Q 18 12 15.5 15.5 M 18.5 5.5 Q 23.5 12 18.5 18.5" fill="none" ${sw(2.2)}/>`,
+  mute:
+    `<path d="M 3 9 h 4 l 5 -4.5 v 15 l -5 -4.5 h -4 Z" fill="${INK}" ${sw(2)}/>` +
+    `<path d="M 15.5 9 l 6 6 M 21.5 9 l -6 6" fill="none" ${sw(2.4)}/>`,
+  home:
+    `<path d="M 5 11 V 20.5 H 19 V 11" fill="#ffd1e3" ${sw(2.2)}/>` +
+    `<path d="M 2.5 12 L 12 3.5 L 21.5 12" fill="none" ${sw(2.4)}/>` +
+    `<path d="M 10 20.5 V 15 H 14 V 20.5" fill="#fff" ${sw(2)}/>`,
+  ffwd: `<path d="M 3 5.5 L 11.5 12 L 3 18.5 Z M 12 5.5 L 20.5 12 L 12 18.5 Z" fill="${INK}" ${sw(1.6)}/>`,
+  play: `<path d="M 7 4.5 L 19.5 12 L 7 19.5 Z" fill="${INK}" ${sw(1.6)}/>`,
+  next: `<path d="M 9 5 L 16 12 L 9 19" fill="none" ${sw(3)}/>`,
+  back: `<path d="M 15 5 L 8 12 L 15 19" fill="none" ${sw(3)}/>`,
+  spoon:
+    `<path d="M 14 10 L 21 21" ${sw(4.5)}/><path d="M 14 10 L 21 21" stroke="#d4955a" stroke-width="2" stroke-linecap="round"/>` +
+    `<ellipse cx="9.5" cy="6.5" rx="5" ry="3.6" transform="rotate(45 9.5 6.5)" fill="#d4955a" ${sw(2)}/>`,
+  thermo:
+    `<path d="M 9.5 14.5 V 4.5 a 2.5 2.5 0 0 1 5 0 V 14.5" fill="#fff" ${sw(2)}/>` +
+    `<circle cx="12" cy="17.5" r="4" fill="#ff5d5d" ${sw(2)}/><path d="M 12 16 V 8" stroke="#ff5d5d" stroke-width="2.4" stroke-linecap="round"/>`,
+  camera:
+    `<path d="M 8 6 L 9.5 3.5 H 14.5 L 16 6" fill="#ffd1e3" ${sw(2)}/>` +
+    `<rect x="2.5" y="6" width="19" height="14" rx="3" fill="#8ecae6" ${sw(2)}/>` +
+    `<circle cx="12" cy="13" r="4" fill="#fff" ${sw(2)}/><circle cx="12" cy="13" r="1.5" fill="${INK}"/>`,
+  again:
+    `<path d="M 19.5 12 A 7.5 7.5 0 1 1 17.3 6.7" fill="none" ${sw(2.6)}/>` +
+    `<path d="M 19.5 3.5 V 8 H 15" fill="none" ${sw(2.6)}/>`,
+  knife:
+    `<path d="M 3 18 L 15 6 C 18 4, 21 5, 20 8 L 8 20 Z" fill="#dfe6ee" ${sw(2)}/>` +
+    `<path d="M 3 18 L 6.5 21.5 L 9.5 18.5 L 6 15 Z" fill="#c98a4b" ${sw(2)}/>`,
+  dice:
+    `<rect x="3.5" y="3.5" width="17" height="17" rx="4" fill="#fff" ${sw(2.2)}/>` +
+    `<circle cx="8.5" cy="8.5" r="1.6" fill="${INK}"/><circle cx="15.5" cy="15.5" r="1.6" fill="${INK}"/><circle cx="12" cy="12" r="1.6" fill="${INK}"/>`,
+  flame: `<path d="M 12 2.5 C 17 8, 19 12, 17.5 16 C 16 20, 8 20, 6.5 16 C 5.5 13, 7.5 10, 9 8.5 C 9 11, 10.5 12, 11.5 12 C 10.5 8.5, 11 5.5, 12 2.5 Z" fill="#ffb703" ${sw(2)}/>`,
+  star: `<path d="M 12 2.5 L 14.8 8.6 L 21.5 9.3 L 16.5 13.8 L 17.9 20.5 L 12 17.1 L 6.1 20.5 L 7.5 13.8 L 2.5 9.3 L 9.2 8.6 Z" fill="#ffd23f" ${sw(1.8)}/>`,
+  starOff: `<path d="M 12 2.5 L 14.8 8.6 L 21.5 9.3 L 16.5 13.8 L 17.9 20.5 L 12 17.1 L 6.1 20.5 L 7.5 13.8 L 2.5 9.3 L 9.2 8.6 Z" fill="#fff" ${sw(1.8)}/>`,
+  check: `<path d="M 4.5 12.5 L 10 18 L 19.5 6.5" fill="none" stroke="${INK}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>` +
+    `<path d="M 4.5 12.5 L 10 18 L 19.5 6.5" fill="none" stroke="#3bceac" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`,
+  heart: `<path d="M 12 20.5 C 4 15, 2 11, 3.5 7.5 C 5 4, 9.5 4, 12 7.5 C 14.5 4, 19 4, 20.5 7.5 C 22 11, 20 15, 12 20.5 Z" fill="#ff5d8f" ${sw(2)}/>`,
+};
+
+export const uiIcon = (name) => `<svg class="ui" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${UI[name] || ''}</svg>`;
 
 export const extraIcon = (type) => svg(EXTRAS[type] || '');
 export const ingredientIcon = (id) => svg(INGREDIENTS[id] || '');
