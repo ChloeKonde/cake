@@ -7,7 +7,8 @@
 // you only miss the "perfect" pip.
 
 import { t } from './i18n.js';
-import { FILLINGS, FILLING_IDS, GLAZES, GLAZE_SWATCH, EXTRA_ICONS } from './data.js';
+import { FILLINGS, FILLING_IDS, GLAZES, GLAZE_SWATCH } from './data.js';
+import { extraIcon } from './icons.js';
 import { cakeSVG, toppingIcon, fillingIcon } from './cake.js';
 import { catSVG } from './scenes.js';
 import { sfx, confetti, sparkleAt } from './fx.js';
@@ -233,14 +234,26 @@ function press(stId, v, btn) {
 function pour(stId, v) {
   const s = $(`#stream-${stId}`);
   if (!s) return;
+  // The stream takes the colour of the chosen option, matching its button.
+  const stripes = (...c) => `repeating-linear-gradient(180deg,${c.map((col, i) => `${col} ${i * 6}px ${(i + 1) * 6}px`).join(',')})`;
   const colors = {
-    dough: () => FILLINGS[v].raw,
-    glaze: () => GLAZES[v],
-    sprinkles: () => 'repeating-linear-gradient(180deg,#ff5d8f 0 6px,#ffd23f 6px 12px,#3bceac 12px 18px,#5d9cec 18px 24px)',
-    toppings: () => '#7cc243',
-    magic: () => 'linear-gradient(#fff6a8,#ffd23f)',
+    dough: { [v]: FILLINGS[v]?.raw },
+    glaze: { [v]: GLAZES[v] },
+    sprinkles: {
+      rainbow: stripes('#ff5d8f', '#ffd23f', '#3bceac', '#5d9cec'),
+      choco: stripes('#4a2511', '#6b3a1e', '#2e1608'),
+      stars: stripes('#ffd23f', '#ffe98a'),
+      powder: stripes('#ffffff', '#f3ece2'),
+    },
+    toppings: { cherry: '#e5243b', strawberry: '#ff4d6d', orange: '#ff9f1c', mint: '#58c46b' },
+    magic: {
+      crown: 'linear-gradient(#ffe98a,#ffb703)',
+      wings: 'linear-gradient(#ffffff,#bcd5f0)',
+      halo: 'linear-gradient(#fff7c2,#ffd23f)',
+      candles: stripes('#ff8fb8', '#7be0ad', '#74b9ff'),
+    },
   };
-  s.style.background = colors[stId]();
+  s.style.background = colors[stId]?.[v] || '#fff';
   s.classList.remove('pour');
   void s.offsetWidth;
   s.classList.add('pour');
@@ -270,7 +283,7 @@ function badge(stId, v) {
     case 'glaze': return `<i class="dot" style="background:${GLAZE_SWATCH[v]}"></i>`;
     case 'sprinkles': return sprBadge(v);
     case 'toppings': return toppingIcon(v);
-    case 'magic': return `<span class="emo">${EXTRA_ICONS[v]}</span>`;
+    case 'magic': return extraIcon(v);
   }
   return '';
 }

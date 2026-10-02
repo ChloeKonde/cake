@@ -22,6 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Randomness in a cake (chunk placement, drips, sprinkles, name, score) comes from `rng(c.seed)` in `util.js`, so a saved config always renders the same. Inside `cakeSVG` the RNG is consumed in a fixed order, so adding a new random draw early in it will shuffle existing layouts.
 - `scenes.js` has the bowl (a `Bowl` class that updates SVG attributes in place each frame), the oven (its knobs are eyes, and `#ovCake` is a nested `<svg>` whose innerHTML is replaced with `cakeSVG`), and the Chef Murzik cat SVG.
 - `data.js` holds the curated option lists (fillings with palettes, glazes, sprinkles, toppings, extras, filling→topping `PAIRINGS` for "Surprise!"). `i18n.js` holds all RU/EN strings, chef lines and cake-name parts. A new option needs both a `data.js` entry and labels in both languages.
+- `icons.js` has hand-drawn SVG icons for the magic extras, ingredients and modes. Don't use emoji for game objects: they look different on every platform and clash with the art.
 - `fx.js` has WebAudio-synthesised sound effects (no audio files) and canvas confetti.
 - SVG animations (blink, wing flap, bob, flicker, twinkle) are CSS classes in `style.css` using `transform-box: fill-box`. Elements with a positioning `transform` attribute wrap an inner `<g class="...">` for the animation, because a CSS transform would override the attribute.
 - localStorage keys: `cake-shelf` (last 12 cakes), `cake-lang`, `cake-muted`, `cake-factory-best`. Every access is wrapped in try/catch.

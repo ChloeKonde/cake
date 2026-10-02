@@ -266,19 +266,20 @@ function toppings(list) {
 const WING = 'M 0 0 C -18 -46, -78 -70, -86 -26 C -98 -14, -90 6, -70 4 C -82 20, -64 34, -48 22 C -46 38, -22 38, -16 22 C -8 28, 2 18, 0 0 Z';
 const wing = `<g class="flap"><path d="${WING}" fill="#fff" stroke="#6f9fd6" stroke-width="3.5" stroke-linejoin="round"/>` +
   `<path d="M -12 -6 C -30 -24, -56 -34, -72 -24 M -14 6 C -30 0, -46 4, -58 12" stroke="#bcd5f0" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>`;
-const WINGS = `<g transform="translate(88 196)">${wing}</g><g transform="translate(362 168) scale(-1 1)">${wing}</g>`;
+// Scaled to 0.8 so the wing tips (path spans ~98px) stay inside the 440px viewBox while flapping.
+const WINGS = `<g transform="translate(90 196) scale(.8)">${wing}</g><g transform="translate(354 170) scale(-.8 .8)">${wing}</g>`;
 
 function rainbow() {
   const cols = ['#ff5d8f', '#ff9f43', '#ffd23f', '#3bceac', '#5d9cec', '#a66cff'];
   const cx = 226, cy = 262;
   let out = cols.map((col, i) => {
-    const rr = 208 - i * 16;
+    const rr = 196 - i * 16;
     return `<path d="M ${cx - rr} ${cy} A ${rr} ${rr} 0 0 1 ${cx + rr} ${cy}" stroke="${col}" stroke-width="16" fill="none"/>`;
   }).join('');
   const cloud = (x) => [[-18, 4, 16], [0, -6, 20], [18, 4, 16]]
     .map(([dx, dy, r]) => `<circle cx="${x + dx}" cy="${cy + dy}" r="${r}" fill="#fff" stroke="${INK}" stroke-width="3"/>`).join('') +
     [[-18, 4, 13.5], [0, -6, 17.5], [18, 4, 13.5]].map(([dx, dy, r]) => `<circle cx="${x + dx}" cy="${cy + dy}" r="${r}" fill="#fff"/>`).join('');
-  return `<g opacity=".95">${out}</g>${cloud(cx - 194)}${cloud(cx + 194)}`;
+  return `<g opacity=".95">${out}</g>${cloud(cx - 156)}${cloud(cx + 156)}`;
 }
 
 const CROWN = `<g transform="translate(228 34)"><g class="bob">` +

@@ -1,12 +1,13 @@
 import { t, chefLines, nameParts, getLang, setLang } from './i18n.js';
 import {
-  FILLING_IDS, GLAZE_SWATCH, SPRINKLES, TOPPINGS, MAX_TOPPINGS, EXTRAS, EXTRA_ICONS,
+  FILLING_IDS, GLAZE_SWATCH, SPRINKLES, TOPPINGS, MAX_TOPPINGS, EXTRAS,
   EYES, MOUTHS, PAIRINGS, INGREDIENTS, GLAZES,
 } from './data.js';
 import { cakeSVG, sliceSVG, toppingIcon, eyesIcon, mouthIcon, sprinkleIcon, fillingIcon } from './cake.js';
 import { bowlSVG, Bowl, ovenSVG, CHEF_SVG } from './scenes.js';
 import { sfx, confetti, sparkleAt, isMuted, setMuted } from './fx.js';
 import { renderFactory, newFactory, bestLevel } from './factory.js';
+import { extraIcon, ingredientIcon, modeIcon } from './icons.js';
 import { rng, pick, clamp, $, $$ } from './util.js';
 
 const STEPS = ['filling', 'mix', 'bake', 'decorate', 'reveal'];
@@ -157,9 +158,9 @@ function renderStart() {
   panel.innerHTML =
     `<h1 class="logo-big">${t('title')}</h1><p class="sub">${t('subtitle')}</p>` +
     `<div class="modes">` +
-    `<button class="mode primary" id="mFactory"><span class="emo">🏭</span><span><b>${t('mode.factory')}</b><small>${t('mode.factory.tag')}</small></span></button>` +
+    `<button class="mode primary" id="mFactory"><span class="micon">${modeIcon('factory')}</span><span><b>${t('mode.factory')}</b><small>${t('mode.factory.tag')}</small></span></button>` +
     (bestLevel() > 1 ? `<button class="btn small ghost" id="mCont">▶ ${t('f.continue')} ${bestLevel()}</button>` : '') +
-    `<button class="mode" id="start"><span class="emo">🎨</span><span><b>${t('mode.free')}</b><small>${t('mode.free.tag')}</small></span></button>` +
+    `<button class="mode" id="start"><span class="micon">${modeIcon('free')}</span><span><b>${t('mode.free')}</b><small>${t('mode.free.tag')}</small></span></button>` +
     `</div>` + shelfHTML();
   $('#mFactory').addEventListener('click', () => { sfx.pop(); newFactory(1); go('factory'); });
   const cont = $('#mCont');
@@ -214,7 +215,7 @@ function renderMix(entering) {
   const bowl = new Bowl(svg, S.cake.filling);
   bowl.sync(m);
 
-  const ingIcon = (ing) => (ing.id === 'filling' ? fillingIcon(S.cake.filling) : `<span class="emo">${ing.icon}</span>`);
+  const ingIcon = (ing) => (ing.id === 'filling' ? fillingIcon(S.cake.filling) : ingredientIcon(ing.id));
   panel.innerHTML =
     `<h2>${t('mix.title')}</h2><p class="hint">${t('mix.hint')}</p>` +
     `<div class="ings">` + INGREDIENTS.map((ing) =>
@@ -477,7 +478,7 @@ function tabBody() {
         `<h4>${t('face.mouth')}</h4><div class="opts">` + MOUTHS.map((m) => opt('mouth', m, c.mouth === m, mouthIcon(m), t('mouth.' + m))).join('') + `</div>`;
     case 'magic':
       return `<div class="opts">` + EXTRAS.map((x) =>
-        opt('extra', x, c.extras.includes(x), `<span class="emo">${EXTRA_ICONS[x]}</span>`, t('x.' + x))).join('') + `</div>`;
+        opt('extra', x, c.extras.includes(x), extraIcon(x), t('x.' + x))).join('') + `</div>`;
   }
   return '';
 }

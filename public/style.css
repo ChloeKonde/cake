@@ -231,21 +231,19 @@ h1, h2, h3, h4, p { margin: 0; }
   pointer-events: auto;
 }
 .bubble:empty { display: none; }
+/* Tail: a square with two outlined edges, rotated so its corner points at the chef. */
 .bubble::before {
   content: '';
   position: absolute;
-  left: -13px;
-  bottom: 12px;
-  border: 8px solid transparent;
-  border-right: 12px solid var(--ink);
-}
-.bubble::after {
-  content: '';
-  position: absolute;
-  left: -7px;
+  left: -10px;
   bottom: 14px;
-  border: 6px solid transparent;
-  border-right: 9px solid #fff;
+  width: 16px;
+  height: 16px;
+  border-left: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  border-bottom-left-radius: 4px;
+  background: #fff;
+  transform: rotate(45deg);
 }
 .bubble.pop { animation: pop .35s cubic-bezier(.3, 1.6, .5, 1); }
 
@@ -350,7 +348,6 @@ h1, h2, h3, h4, p { margin: 0; }
 }
 .ing:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
 .ing svg { width: 38px; height: 38px; }
-.emo { font-size: 34px; line-height: 38px; height: 38px; }
 
 .badge {
   position: absolute;
@@ -577,7 +574,8 @@ h1, h2, h3, h4, p { margin: 0; }
 .mode:hover { transform: translateY(-2px); }
 .mode:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
 .mode.primary { background: var(--yellow); }
-.mode .emo { font-size: 40px; height: auto; line-height: 1; }
+.mode .micon { flex: none; width: 52px; height: 52px; }
+.mode .micon svg { width: 100%; height: 100%; }
 .mode b { display: block; font-size: 21px; font-weight: 900; }
 .mode small { display: block; font-size: 14px; opacity: .75; }
 
@@ -640,7 +638,6 @@ body[data-step="factory"] .bubble { margin-bottom: 30px; }
 }
 .chip svg { width: 100%; height: 100%; }
 .chip .dot { width: 16px; height: 16px; border-width: 1.5px; }
-.chip .emo { font-size: 13px; line-height: 1; height: auto; }
 .order.ok, .order.love { animation: pop .35s cubic-bezier(.3, 1.6, .5, 1); }
 .order.ok::after, .order.love::after {
   position: absolute;
@@ -709,7 +706,6 @@ body[data-step="factory"] .bubble { margin-bottom: 30px; }
 .mbtn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
 .mbtn:disabled { cursor: default; }
 .mbtn svg { width: 100%; height: 100%; }
-.mbtn .emo { font-size: 22px; line-height: 1; height: auto; }
 .dot { display: block; width: 28px; height: 28px; border: 2px solid var(--ink); border-radius: 50%; }
 .machine.off { filter: grayscale(.85); opacity: .65; }
 .zzz { position: absolute; right: 8px; top: 30px; font-weight: 900; font-size: 14px; animation: bob 2s ease-in-out infinite; }

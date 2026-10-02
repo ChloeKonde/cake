@@ -41,7 +41,6 @@ export const SPRINKLES = ['none', 'rainbow', 'choco', 'stars', 'hearts', 'powder
 export const TOPPINGS = ['cherry', 'strawberry', 'orange', 'lemon', 'apple', 'plum', 'chocolate', 'marshmallow', 'mint', 'cookie'];
 export const MAX_TOPPINGS = 7;
 export const EXTRAS = ['wings', 'crown', 'halo', 'rainbow', 'candles', 'glasses'];
-export const EXTRA_ICONS = { wings: '🪽', crown: '👑', halo: '😇', rainbow: '🌈', candles: '🕯️', glasses: '🕶️' };
 export const EYES = ['big', 'sparkle', 'happy', 'hearts'];
 export const MOUTHS = ['smile', 'grin', 'cat', 'tongue'];
 
@@ -54,9 +53,9 @@ export const PAIRINGS = {
 };
 
 export const INGREDIENTS = [
-  { id: 'flour', icon: '🌾', color: '#fffaf0' },
-  { id: 'eggs', icon: '🥚', color: '#ffd23f' },
-  { id: 'butter', icon: '🧈', color: '#ffe680' },
-  { id: 'sugar', icon: '🍬', color: '#ffffff' },
-  { id: 'filling', icon: null, color: null },
+  { id: 'flour' },
+  { id: 'eggs' },
+  { id: 'butter' },
+  { id: 'sugar' },
+  { id: 'filling' },
 ];
